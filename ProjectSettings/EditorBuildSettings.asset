@@ -4,5 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/HubScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/PuzzleScene.unity
+    guid: 2a3e8243b548e0049a65ea15e29996fa
+  - enabled: 1
+    path: Assets/Scenes/SubmarineScene.unity
+    guid: b1a079ce9f4315c47a3cb3a4b37e36de
   m_configObjects: {}
