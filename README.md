@@ -1,4 +1,4 @@
-# Mini Game Case – Unity Project
+# Undoco Games -> Mini Game Case – Unity Project
 
 ## Overview
 This project is a Unity-based mini game case developed to demonstrate clean gameplay flow, basic player mechanics, UI management, and a simple quiz system.
