@@ -103,4 +103,4 @@ The result panel also displays the final score and provides navigation options.
 ## Gameplay Video
 A short gameplay video demonstrating:
 
-Video link:
+Video link: https://www.youtube.com/watch?v=5JzY0tcGWA8
