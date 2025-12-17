@@ -34,8 +34,6 @@ public class SubmarineController : MonoBehaviour
     private Vector3 visualStartLocalPos;
     private Quaternion visualStartLocalRot;
     private float bobTimer = 0f;
-    private bool wasMovingLastFrame = false;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
