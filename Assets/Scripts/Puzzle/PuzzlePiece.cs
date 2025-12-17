@@ -3,6 +3,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
 
+// Puzzle parçasının sürükleme, bırakma, slot kontrolü
+// ve görsel geri bildirim (scale / snap) davranışlarını yönetir.
+
 public class PuzzlePiece : MonoBehaviour,
     IBeginDragHandler, IDragHandler, IEndDragHandler,
     IPointerEnterHandler, IPointerExitHandler
@@ -35,6 +38,7 @@ public class PuzzlePiece : MonoBehaviour,
     private Tween scaleTween;
     private Tween moveTween;
 
+    // Başlangıç referanslarını ve varsayılan scale değerini ayarlar
     private void Awake()
     {
         rect = GetComponent<RectTransform>();
@@ -48,18 +52,21 @@ public class PuzzlePiece : MonoBehaviour,
         rect.localScale = Vector3.one * normalScale;
     }
 
+    // Mouse parça üzerine geldiğinde hover scale uygular
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (isDragging || isPlaced) return;
         TweenScale(hoverScale);
     }
 
+    // Mouse parça üzerinden çıkınca normal scale'e döner
     public void OnPointerExit(PointerEventData eventData)
     {
         if (isDragging || isPlaced) return;
         TweenScale(normalScale);
     }
 
+    // Sürükleme başladığında parçayı canvas altına alır
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (isPlaced) return;
@@ -75,12 +82,14 @@ public class PuzzlePiece : MonoBehaviour,
         if (img != null) img.raycastTarget = false;
     }
 
+    // Sürükleme sırasında parçayı mouse ile birlikte hareket ettirir
     public void OnDrag(PointerEventData eventData)
     {
         if (!enabled) return;
         rect.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
+    // Sürükleme bitince slot kontrolü yapar
     public void OnEndDrag(PointerEventData eventData)
     {
         if (!enabled) return;
@@ -99,7 +108,6 @@ public class PuzzlePiece : MonoBehaviour,
             PuzzleGameController.Instance.PlayCorrectSfx();
 
             SnapToSlot(slot.transform);
-
             PuzzleGameController.Instance.NotifyCorrectPlacement();
             return;
         }
@@ -107,6 +115,7 @@ public class PuzzlePiece : MonoBehaviour,
         ResetPieceTween();
     }
 
+    // Parçayı doğru slota animasyonlu şekilde sabitler
     private void SnapToSlot(Transform slotTransform)
     {
         RectTransform slotRect = slotTransform as RectTransform;
@@ -142,9 +151,11 @@ public class PuzzlePiece : MonoBehaviour,
             });
     }
 
+    // Yanlış bırakıldığında parçayı başlangıç konumuna geri taşır
     private void ResetPieceTween()
     {
         if (isPlaced) return;
+
         snapTween?.Kill();
         moveTween?.Kill();
 
@@ -163,6 +174,7 @@ public class PuzzlePiece : MonoBehaviour,
         TweenScale(normalScale);
     }
 
+    // Scale animasyonunu kontrollü şekilde oynatır
     private void TweenScale(float target)
     {
         scaleTween?.Kill();

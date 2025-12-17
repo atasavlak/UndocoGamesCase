@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
+// Submarine mini oyununda oyuncu kontrolünü,
+// hareket, dönüş, çarpışma ve görsel idle bobbing davranışlarını yöneten sınıf.
+
 public class SubmarineController : MonoBehaviour
 {
     [Header("Movement")]
@@ -30,10 +33,12 @@ public class SubmarineController : MonoBehaviour
     private float currentZRotation = 90f;
     private bool isKnockbacked = false;
 
-    // 🔑 Bobbing state
+    // Bobbing için başlangıç referansları
     private Vector3 visualStartLocalPos;
     private Quaternion visualStartLocalRot;
     private float bobTimer = 0f;
+
+    // Rigidbody ve görsel başlangıç değerlerini ayarlar
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -45,6 +50,7 @@ public class SubmarineController : MonoBehaviour
         }
     }
 
+    // Fizik tabanlı hareket ve dönüş hesaplamalarını yapar
     private void FixedUpdate()
     {
         if (isKnockbacked)
@@ -65,11 +71,13 @@ public class SubmarineController : MonoBehaviour
         HandleRotation(h, v);
     }
 
+    // Görsel idle bobbing efektini günceller
     private void Update()
     {
         HandleIdleBobbing();
     }
 
+    // Girişlere göre denizaltının dönüşünü ayarlar
     private void HandleRotation(float horizontalInput, float verticalInput)
     {
         if (horizontalInput > 0f)
@@ -99,6 +107,7 @@ public class SubmarineController : MonoBehaviour
         );
     }
 
+    // Hareket yokken bobbing, hareket varken reset davranışını uygular
     private void HandleIdleBobbing()
     {
         if (visual == null)
@@ -106,7 +115,6 @@ public class SubmarineController : MonoBehaviour
 
         bool isMoving = rb.velocity.sqrMagnitude > 0.01f;
 
-        // 🔁 Hareket başladıysa bobbing’i resetle
         if (isMoving)
         {
             bobTimer = 0f;
@@ -125,7 +133,6 @@ public class SubmarineController : MonoBehaviour
         }
         else
         {
-            // 🔑 Idle'da bobbing timer akar
             bobTimer += Time.deltaTime;
 
             float wave = Mathf.Sin(bobTimer * bobFrequency * Mathf.PI * 2f);
@@ -140,6 +147,7 @@ public class SubmarineController : MonoBehaviour
         }
     }
 
+    // Engel ile çarpışıldığında knockback tetikler
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Chest"))
@@ -155,6 +163,7 @@ public class SubmarineController : MonoBehaviour
         StartCoroutine(ApplyKnockback(hitDirection));
     }
 
+    // Kısa süreli geri itme kuvveti uygular
     private IEnumerator ApplyKnockback(Vector3 direction)
     {
         isKnockbacked = true;

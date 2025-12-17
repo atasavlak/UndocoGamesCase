@@ -1,5 +1,8 @@
 using UnityEngine;
 
+// Submarine mini oyunundaki sandık toplama,
+// quiz akışı ve genel oyun durumunu yöneten controller.
+
 public class SubmarineGameController : MonoBehaviour
 {
     public static SubmarineGameController Instance;
@@ -12,19 +15,19 @@ public class SubmarineGameController : MonoBehaviour
     public GameObject quizPanel;
     public QuizResultPanel resultPanel;
 
+    // SubmarineGameController instance’ını ayarlar
     private void Awake()
     {
         Instance = this;
     }
 
+    // Oyun başladığında ilk UI durumunu günceller
     private void Start()
     {
         UpdateUI();
     }
 
-    // =====================
-    // CHEST LOGIC (AYNI)
-    // =====================
+    // Bir sandık toplandığında çağrılır
     public void CollectChest()
     {
         collectedChests++;
@@ -37,36 +40,32 @@ public class SubmarineGameController : MonoBehaviour
         }
     }
 
+    // Sandık sayısını UI üzerinde günceller
     private void UpdateUI()
     {
         SubmarineUI.Instance.UpdateChestUI(collectedChests, totalChests);
     }
 
+    // Tüm sandıklar toplandığında quiz ekranını açar
     private void AllChestsCollected()
     {
         SubmarineUI.Instance.OpenQuizPanel();
     }
 
-    // =====================
-    // QUIZ FLOW (YENİ)
-    // =====================
-
-    // QuizManager burayı çağırır
+    // Quiz tamamlandığında QuizManager tarafından çağrılır
     public void OnQuizFinished(int correctCount, int totalQuestions)
     {
         quizPanel.SetActive(false);
         resultPanel.ShowResult(correctCount, totalQuestions);
     }
 
-    // =====================
-    // UI BUTTON ACTIONS
-    // =====================
-
+    // Submarine mini oyununu baştan başlatır
     public void RestartSubmarine()
     {
         MiniGameManager.Instance.RestartCurrentGame();
     }
 
+    // Oyuncuyu hub sahnesine geri döndürür
     public void ReturnToHub()
     {
         MiniGameManager.Instance.ReturnToHub();

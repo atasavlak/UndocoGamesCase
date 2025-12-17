@@ -20,7 +20,7 @@ public class MiniGameManager : MonoBehaviour
     // Mini oyunlar tamamlandığında tetiklenen event
     public static Action<MiniGameType> OnMiniGameCompleted;
 
-    // Singleton yapısını kurar ve sahneler arası kalıcı olmasını sağlar
+    // Singleton kontrolünü yapar ve objeyi sahneler arası kalıcı kılar
     private void Awake()
     {
         if (Instance != null)
@@ -33,27 +33,26 @@ public class MiniGameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // Seçilen mini oyunun sahnesini yükler
+    // Verilen mini oyuna ait sahneyi yükler
     public void LoadMiniGame(MiniGameType gameType)
     {
         SceneManager.LoadScene(gameType.ToString() + "Scene");
     }
 
-    // Aktif sahneyi yeniden yükleyerek mini oyunu baştan başlatır
+    // O anki sahneyi yeniden yükleyerek oyunu sıfırlar
     public void RestartCurrentGame()
     {
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
     }
 
-    // Oyuncuyu ana hub sahnesine geri döndürür
+    // Oyuncuyu ana hub sahnesine geri gönderir
     public void ReturnToHub()
     {
         SceneManager.LoadScene("HubScene");
     }
 
-    // Mini oyun tamamlandığında çağrılır
-    // Event'i tetikler ve oyuncuyu hub'a geri gönderir
+    // Mini oyun bitince çağrılır, event'i tetikler ve hub'a döner
     public void CompleteMiniGame(MiniGameType gameType)
     {
         OnMiniGameCompleted?.Invoke(gameType);

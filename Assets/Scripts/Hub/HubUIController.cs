@@ -7,38 +7,39 @@ public class HubUIController : MonoBehaviour
     public GameObject mainMenuPanel;
     public GameObject playSelectPanel;
 
+    // Sahne açıldığında varsayılan olarak ana menüyü gösterir
     private void Start()
     {
         ShowMainMenu();
     }
 
-    // Ana menüyü gösterir
+    // Ana menü panelini açar, diğer menüleri kapatır
     public void ShowMainMenu()
     {
         mainMenuPanel.SetActive(true);
         playSelectPanel.SetActive(false);
     }
 
-    // Play'e basıldığında oyun seçme ekranını açar
+    // Play butonuna basıldığında oyun seçim ekranını açar
     public void OpenPlayMenu()
     {
         mainMenuPanel.SetActive(false);
         playSelectPanel.SetActive(true);
     }
 
-    // Puzzle mini oyunu başlatır
+    // Puzzle mini oyununu yükler
     public void OpenPuzzleGame()
     {
         MiniGameManager.Instance.LoadMiniGame(MiniGameType.Puzzle);
     }
 
-    // Submarine mini oyunu başlatır
+    // Submarine mini oyununu yükler
     public void OpenSubmarineGame()
     {
         MiniGameManager.Instance.LoadMiniGame(MiniGameType.Submarine);
     }
 
-    // Oyundan çıkış
+    // Oyunu tamamen kapatır
     public void QuitGame()
     {
         Application.Quit();
